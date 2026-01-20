@@ -1,0 +1,39 @@
+name: Update README
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.html'
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate README
+        run: |
+          cat > README.md << 'EOF'
+          # all-saved-pages
+
+          Saved pages published to GitHub Pages.
+
+          ## Pages
+
+          EOF
+
+          for file in *.html; do
+            if [ -f "$file" ]; then
+              name="${file%.html}"
+              echo "- [$name](https://calvinw.github.io/all-saved-pages/$file)" >> README.md
+            fi
+          done
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git diff --quiet --staged || git commit -m "Update README with page links"
+          git push
