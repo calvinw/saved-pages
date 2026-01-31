@@ -26,11 +26,11 @@ jobs:
 
           EOF
 
-          for file in *.html; do
-            if [ -f "$file" ]; then
-              name="${file%.html}"
-              echo "- [$name](https://calvinw.github.io/all-saved-pages/$file)" >> README.md
-            fi
+          find . -name "*.html" -type f | sort | while read -r file; do
+            file="${file#./}"  # Remove leading ./
+            name="${file%.html}"
+            url="https://calvinw.github.io/all-saved-pages/$file"
+            echo "- [$name]($url)" >> README.md
           done
 
       - name: Commit and push
