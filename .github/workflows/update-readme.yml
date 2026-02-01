@@ -18,7 +18,7 @@ jobs:
       - name: Generate README
         run: |
           cat > README.md << 'EOF'
-          # all-saved-pages
+          # saved-pages
 
           Saved pages published to GitHub Pages.
 
@@ -29,7 +29,7 @@ jobs:
           find . -name "*.html" -type f | sort | while read -r file; do
             file="${file#./}"  # Remove leading ./
             name="${file%.html}"
-            url="https://calvinw.github.io/all-saved-pages/$file"
+            url="https://calvinw.github.io/saved-pages/$file"
             echo "- [$name]($url)" >> README.md
           done
 
